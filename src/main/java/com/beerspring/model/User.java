@@ -1,6 +1,8 @@
 package com.beerspring.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by markryan on 2/16/15.
@@ -13,6 +15,9 @@ public class User {
     private String userName;
     private String firstName;
     private String lastName;
+
+    @OneToMany(orphanRemoval = true, cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private List<CheckIn> checkIns = new ArrayList<>();
 
     protected User(){}
 
@@ -52,6 +57,14 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<CheckIn> getCheckIns() {
+        return checkIns;
+    }
+
+    public void setCheckIns(List<CheckIn> checkIns) {
+        this.checkIns = checkIns;
     }
 
     @Override
