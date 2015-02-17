@@ -1,13 +1,11 @@
 package com.beerspring.controller;
 
-import com.beerspring.Repository.UserRepository;
+import com.beerspring.repository.UserRepository;
 import com.beerspring.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by markryan on 2/16/15.

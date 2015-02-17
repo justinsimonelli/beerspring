@@ -1,4 +1,4 @@
-package com.beerspring.Repository;
+package com.beerspring.repository;
 
 import com.beerspring.model.User;
 import org.springframework.data.repository.CrudRepository;
