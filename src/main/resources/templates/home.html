@@ -1,10 +1,40 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-    <title>Beerspring</title>
-</head>
-<body>
-<h1>Welcome <span th:text="${user.userName}"></span>!</h1>
+    <head>
+        <style>
+            span,
+            ul{
+                display:block;
+                float:left;
+                clear:both;
+                position:relative;
+            }
+        </style>
+        <title>Beerspring</title>
+    </head>
+    <body>
+        <h1>Welcome <span th:text="${user.firstName}"></span>!</h1>
 
-</body>
+        <section>
+            <h2>checkins</h2>
+            <ul th:each="check : ${checkins}" class="checkins">
+                <li th:text="${check.user} + '-' + ${check.date}"></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>beer lists</h2>
+            <ul th:each="list : ${beerLists}" class="beer-lists">
+                <li>
+                    <span th:text="'name | ' + ${list.name}"></span>
+                    <span th:text="'for | ' + ${list.dateIntended}"></span>
+                    <span th:text="beers | "></span>
+                    <ul th:each="brew : ${list.beers}">
+                        <li th:text="${brew.name} + ' - ABV: ' + ${brew.abv} + ' - Brewery: ' + ${brew.brewery}"></li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+    </body>
 </html>
