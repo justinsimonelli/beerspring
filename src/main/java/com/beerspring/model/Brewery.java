@@ -16,7 +16,6 @@ public class Brewery {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
-
     private String name;
 
     public Brewery(){};

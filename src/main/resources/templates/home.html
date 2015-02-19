@@ -9,6 +9,13 @@
                 clear:both;
                 position:relative;
             }
+            section{
+                width: 100%;
+                float: left;
+                clear: both;
+                display: block;
+                position: relative;
+            }
         </style>
         <title>Beerspring</title>
     </head>
@@ -25,7 +32,7 @@
         <section>
             <h2>beer lists</h2>
             <ul th:each="list : ${beerLists}" class="beer-lists">
-                <li>
+                <li th:id="${list.id}" class="list">
                     <span th:text="'name | ' + ${list.name}"></span>
                     <span th:text="'for | ' + ${list.dateIntended}"></span>
                     <span th:text="beers | "></span>
