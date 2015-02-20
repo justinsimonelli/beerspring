@@ -44,7 +44,7 @@ public class BeerListController {
 
         if( list == null )
         {
-            return ("cannot find brewery with given id= " + listId);
+            return ("cannot find list with given id= " + listId);
         }
 
         if( logger().isDebugEnabled() )

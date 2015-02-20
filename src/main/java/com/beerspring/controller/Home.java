@@ -7,6 +7,7 @@ import com.beerspring.repository.BeerListRepository;
 import com.beerspring.repository.CheckInRepository;
 import com.beerspring.repository.UserRepository;
 import com.beerspring.model.User;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,10 +34,14 @@ public class Home {
     public String getHomePage(Model model) {
 
         Iterable<User> users = userRepository.findAll();
-        System.out.println("Users found with findAll():");
-        System.out.println("-------------------------------");
-        for (User user: users) {
-            System.out.println(user + " has " + checkInRepository.findByUser(user).size() + " checkins.");
+
+        if( logger().isDebugEnabled() )
+        {
+            logger().debug("Users found with findAll():");
+            for (User user: users)
+            {
+                logger().debug(user + " has " + checkInRepository.findByUser(user).size() + " checkins.");
+            }
         }
 
         User user = userRepository.findByUserName("justinsims").get(0);
@@ -50,15 +55,15 @@ public class Home {
 
         BeerList beerList = beerListRepository.findByUser(user).get(0);
 
-        for( Beer beer : beerList.getBeers() )
-        {
-            System.out.println("beer: " + beer);
-        }
-
         model.addAttribute("user", user );
         model.addAttribute("checkins", checkIns);
         model.addAttribute("beerLists", beerList);
         return "home";
+    }
+
+    private Logger logger()
+    {
+        return Logger.getLogger(this.getClass());
     }
 
 }
