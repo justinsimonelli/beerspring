@@ -56,7 +56,6 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
 
         Date dateIntended = null;
         Date today = new Date();
-        Brewery glbc = new Brewery("Great Lakes Brewing Company");
 
         try {
             String intended = "02-21-2015";
@@ -66,10 +65,14 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
             e.printStackTrace();
         }
 
+        Brewery glbc = new Brewery("Great Lakes Brewing Company", "Cleveland", "Ohio", "US", null);
+
         List<Beer> beers = new ArrayList<>();
-        beers.add(new Beer("Lake Erie Monster", "Imperial IPA", new Double(9.5), glbc));
-        beers.add(new Beer("Christmas Ale", "Spice Beer", new Double(7.5), glbc));
-        beers.add(new Beer("Spacewalker", "Wheat", new Double(6.5), glbc));
+        beers.add(new Beer("Lake Erie Monster", "Imperial IPA", "Test Description", new Double(9.5), new Double(40), glbc));
+        beers.add(new Beer("Christmas Ale", "Spice Beer", "Test Description", new Double(9.5), new Double(40), glbc));
+        beers.add(new Beer("Spacewalker", "Wheat", "Test Description", new Double(9.5), new Double(40), glbc));
+
+        glbc.setBeers(beers);
 
         beerListRepository.save(new BeerList(justin, "Test List", beers, dateIntended, today, today));
 

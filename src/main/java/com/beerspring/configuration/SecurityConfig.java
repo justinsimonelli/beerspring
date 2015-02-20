@@ -22,12 +22,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+
+        /**
+         *
+         * THE CSRF DISABLING MIGHT BE BAD HERE!!!
+         */
+        http.csrf().disable().authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/console/**").permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .anyRequest().authenticated();
+
         http.formLogin().loginPage("/login").permitAll().and().logout()
                 .permitAll();
 

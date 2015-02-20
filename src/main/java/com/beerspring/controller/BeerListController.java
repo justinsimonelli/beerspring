@@ -2,13 +2,17 @@ package com.beerspring.controller;
 
 import com.beerspring.model.Beer;
 import com.beerspring.model.BeerList;
-import com.beerspring.model.Brewery;
 import com.beerspring.repository.BeerListRepository;
+import com.beerspring.repository.BeerRepository;
+import com.beerspring.repository.BreweryRepository;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 
 /**
  * Created by Sims on 2/18/15.
@@ -20,24 +24,22 @@ public class BeerListController {
     @Autowired
     private BeerListRepository beerListRepository;
 
-    //HUGE HACK TO GET THIS TEMP WORKING
-    private Brewery brew = new Brewery();
+    @Autowired
+    private BreweryRepository breweryRepository;
 
-    @RequestMapping("/add/beer")
-    public @ResponseBody String addBeerToList(@RequestParam(value="listId") long listId,
-                                              @RequestParam(value = "name") String name,
-                                              @RequestParam(value = "type") String type,
-                                              @RequestParam(value = "abv")  Double abv,
-                                              @RequestParam(value = "brewery") String brewery )
+    @Autowired
+    private BeerRepository beerRepository;
+
+    @RequestMapping( value="/add/beer/{listId}", method = RequestMethod.POST )
+    public @ResponseBody String addBeerToList(@PathVariable long listId,
+                                              @RequestBody List<Beer> beers)
     {
-        /**
-         *
-         * THIS WHOLE THING NEEDS TO BE CLEANED. JUST A POC.
-         * NEED TO MAKE SURE YOU CAN'T ADD THE SAME BEER TO A LIST TWICE
-         * IF IT ALREADY EXISTS IN THE LIST
-         *
-         *
-          */
+
+        if( logger().isDebugEnabled() )
+        {
+            logger().debug("addBeerToList(): entered method.");
+        }
+
         BeerList list = beerListRepository.findOne(listId);
 
         if( list == null )
@@ -45,20 +47,31 @@ public class BeerListController {
             return ("cannot find brewery with given id= " + listId);
         }
 
-        brew.setName(brewery);
-
-        Beer beer = new Beer(name, type, abv, brew);
-
-        if( list.getBeers().contains(beer) )
+        if( logger().isDebugEnabled() )
         {
-            return ("this beer already exists in the list! beer= " + beer.getName() + ", list= " + list.getName());
+            logger().debug("addBeerToList(): beer=" + beers);
         }
 
-        list.getBeers().add(beer);
+        for( Beer beer : beers )
+        {
+            //at this point we should have already hit the brewdb API for beer info
+            if( list.getBeers().contains(beer) )
+            {
+                //need to return a 400 here?
+                return ("this beer already exists in the list! beer= " + beer.getName() + ", list= " + list.getName());
+            }
+
+            list.getBeers().add(beer);
+        }
 
         beerListRepository.save(list);
 
         return "good";
+    }
+
+    private Logger logger()
+    {
+        return Logger.getLogger(this.getClass());
     }
 
 }
