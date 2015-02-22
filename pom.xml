@@ -18,7 +18,13 @@
         <relativePath/>
         <!-- lookup parent from repository -->
     </parent>
-
+    <repositories>
+        <repository>
+            <id>foursquareapijava</id>
+            <name>Foursquare V2 API for Java Repository</name>
+            <url>http://foursquare-api-java.googlecode.com/svn/repository</url>
+        </repository>
+    </repositories>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>com.beerspring.BeerspringApplication</start-class>
@@ -63,6 +69,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-social-twitter</artifactId>
         </dependency>
+        <!-- Foursquare API Java Plugin -->
+        <dependency>
+            <groupId>fi.foyt</groupId>
+            <artifactId>foursquare-api</artifactId>
+            <version>1.0.2</version>
+        </dependency>
         <!-- Tomcat Server -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -103,6 +115,18 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- Spring Loaded HotSwap -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>springloaded</artifactId>
+                        <version>1.2.0.RELEASE</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

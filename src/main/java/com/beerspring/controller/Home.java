@@ -58,6 +58,7 @@ public class Home {
         model.addAttribute("user", user );
         model.addAttribute("checkins", checkIns);
         model.addAttribute("beerLists", beerList);
+
         return "home";
     }
 
