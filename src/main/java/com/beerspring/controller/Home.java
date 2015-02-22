@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by markryan on 2/16/15.
@@ -50,14 +51,14 @@ public class Home {
         Iterable<BeerList> lists = beerListRepository.findAll();
         System.out.println("-------------------------------");
         for (BeerList list: lists) {
-            System.out.println(user + " has " + beerListRepository.findByUser(user).size() + " beer list(s).");
+            System.out.println("beer list : " + list.getName());
         }
 
-        BeerList beerList = beerListRepository.findByUser(user).get(0);
+        List<BeerList> beerLists = beerListRepository.findByUser(user);
 
         model.addAttribute("user", user );
         model.addAttribute("checkins", checkIns);
-        model.addAttribute("beerLists", beerList);
+        model.addAttribute("beerLists", beerLists);
         return "home";
     }
 

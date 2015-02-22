@@ -104,7 +104,7 @@ public class BeerList {
     @Override
     public String toString()
     {
-        return String.format("BeerList[user='%s', name='%name', beers='%d']", user.getUserName(), name, beers);
+        return String.format("BeerList[id='%s', user='%s', name='%s', beers='%s']", String.valueOf(id), user.getUserName(), name, beers);
     }
 
 

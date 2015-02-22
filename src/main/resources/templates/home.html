@@ -2,13 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
         <style>
-            span,
-            ul{
-                display:block;
-                float:left;
-                clear:both;
-                position:relative;
-            }
             section{
                 width: 100%;
                 float: left;
@@ -18,8 +11,11 @@
             }
         </style>
         <title>Beerspring</title>
+        <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
         <link type="text/css" href="css/jquery-ui.min.css" rel="stylesheet" />
+        <link type="text/css" href="css/app.css" rel="stylesheet" />
     </head>
     <body>
         <h1>Welcome <span th:text="${user.firstName}"></span>!</h1>
@@ -33,16 +29,38 @@
 
         <section>
             <h2>beer lists</h2>
-            <ul th:each="list : ${beerLists}" class="beer-lists">
-                <li th:id="${list.id}" class="list">
-                    <span th:text="'name | ' + ${list.name}"></span>
-                    <span th:text="'for | ' + ${list.dateIntended}"></span>
-                    <span th:text="beers | "></span>
-                    <ul th:each="brew : ${list.beers}">
-                        <li th:text="${brew.name} + ' - ABV: ' + ${brew.abv} + ' - Brewery: ' + ${brew.brewery}"></li>
+            <ul class="beer-lists">
+                <li th:each="list : ${beerLists}" th:id="${list.id}" class="list">
+                    <span><a href="#" th:text="${list.name} + ' - ' + ${list.dateIntended}"></a> </span>
+                    <ul class="section-beers hidden">
+                        <li th:each="brew : ${list.beers}" th:text="${brew.name} + ' - ABV: ' + ${brew.abv} + ' - Brewery: ' + ${brew.brewery}"></li>
                     </ul>
                 </li>
             </ul>
+
+            <form id="new-list-form" action="#">
+                <section>
+                    <div class="ui-widget">
+                        <h2>New List</h2>
+                        <label for="list-name">Beer list name:</label>
+                        <input type="text" id="list-name" />
+                        <label for="datepicker">Beer list date:</label>
+                        <input type="text" id="datepicker" />
+                        <label for="beers" placeholder="3 letter minimum..">Search for a beer or brewery: </label>
+                        <input type="text" id="beers" />
+                    </div>
+
+                    <div class="ui-widget" style="margin-top:2em; font-family:Arial">
+                        Selected beer(s):
+                        <div id="log" style="min-height: 200px; width: 600px; overflow: auto;" class="ui-widget-content">
+                            <ul id="beer-list"></ul>
+                        </div>
+                    </div>
+                </section>
+
+                <button type="submit" id="new-list-submit" value="Drink up!"></button>
+            </form>
+
         </section>
 
     </body>
