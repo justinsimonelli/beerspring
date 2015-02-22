@@ -11,15 +11,17 @@
             }
         </style>
         <title>Beerspring</title>
-        <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
-        <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
-        <link type="text/css" href="css/jquery-ui.min.css" rel="stylesheet" />
-        <link type="text/css" href="css/app.css" rel="stylesheet" />
+        <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+		<link type="text/css" href="css/app.css" rel="stylesheet" />
+        <link type="text/css" href="/css/jquery-ui.min.css" rel="stylesheet" />
+        <script>
+
+        </script>
     </head>
     <body>
-        <h1>Welcome <span th:text="${user.firstName}"></span>!</h1>
-
+        <h1 th:inline="text">Welcome Back [[${user.firstName}]]!</h1>
         <section>
             <h2>checkins</h2>
             <ul th:each="check : ${checkins}" class="checkins">
