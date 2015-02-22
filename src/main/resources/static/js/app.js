@@ -6,15 +6,15 @@ $(document).ready(function(){
     $( "#beers" ).autocomplete({
       source: function( request, response ) {
         $.ajax({
-          url: "https://api.brewerydb.com/v2/search/?key=f455ba07edfba1d9b8261a6166fada13&type=beer&withBreweries=y&p=1",
-          //url: "js/beers.json",
+          //url: "https://api.brewerydb.com/v2/search/?key=f455ba07edfba1d9b8261a6166fada13&type=beer&withBreweries=y&p=1",
+          url: "/api/beer-lists/proxy/",
+          type: "GET",
           dataType: "json",
-          crossDomain:true,
           data: {
-            q: request.term
+            q: encodeURIComponent(request.term)
           },
           success: function( data ) {
-            response( beerInfo );
+            response( data.data );
           },
           error: function(request, status, error){
             console.log(error);

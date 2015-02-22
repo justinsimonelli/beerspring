@@ -1,5 +1,6 @@
 package com.beerspring.controller;
 
+import com.beerspring.configuration.Constants;
 import com.beerspring.model.Beer;
 import com.beerspring.model.BeerList;
 import com.beerspring.repository.BeerListRepository;
@@ -18,6 +19,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.List;
 
 
@@ -118,29 +120,31 @@ public class BeerListController {
     @RequestMapping( value="/proxy/", method = RequestMethod.GET )
     public @ResponseBody String getBeerDBInformation(@RequestParam String q)
     {
-        //fix this to use constants and shit
         try{
-            URL beerDBUrl = new URL("https://api.brewerydb.com/v2/search/?key=f455ba07edfba1d9b8261a6166fada13&type=beer&withBreweries=y&p=1&q=" + q);
-            URLConnection conn = beerDBUrl.openConnection();
+            URL beerURL = new URL(Constants.BEER_DB_BASE_URL + "?key=" + Constants.BEER_DB_API_KEY + "&q=" + URLEncoder.encode(q, "UTF-8") +"&type=beer&withBreweries=y&p=1");
+            URLConnection conn = beerURL.openConnection();
 
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(
                             conn.getInputStream()));
 
             String inputLine;
+            StringBuffer buffer = new StringBuffer();
 
             while ((inputLine = in.readLine()) != null)
             {
-                System.out.println(inputLine);
+                buffer.append(inputLine);
             }
             in.close();
+
+            return buffer.toString();
 
         }
         catch (MalformedURLException e)
         {
             logger().warn("Bad URL supplied.", e );
         } catch (IOException e) {
-            e.printStackTrace();
+            logger().warn("IOException! Unable to read stream.", e );
         }
 
         return "test";
